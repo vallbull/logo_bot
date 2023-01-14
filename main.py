@@ -1,4 +1,4 @@
-from config import API_TOKEN, database, user, password, host, MyID, PASSWORD
+from config import API_TOKEN, database, user, password, host, MyID, PSWD
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButton
@@ -49,7 +49,7 @@ weekdays = {'понедельник': 'mon', 'вторник': 'tue', 'сред�
             'суббота': 'sat', 'воскресенье': 'sun'}
 
 
-@dp.message_handler(text=PASSWORD)
+@dp.message_handler(text=PSWD)
 async def send_welcome(message: types.Message):
     await message.answer("Привет! Теперь у тебя есть права администратора!")
     allowed_id.append(message.from_user.id)
@@ -103,7 +103,7 @@ async def get_text_messages(message):
     elif message.text == 'Добавить нового ребенка':
         print(message)
         if message.from_user.id not in allowed_id:
-            await message.answer("У вас нет прав. Вы можете посмотреть расписание и список детей")
+            await message.answer("У вас нет прав. Попросите пароль у администратора. Вы можете посмотреть расписание и список детей")
             return None
         await AddPupil.name.set()
         await bot.send_message(message.chat.id,
@@ -113,7 +113,7 @@ async def get_text_messages(message):
 
     elif message.text == 'Удалить ребенка':
         if message.from_user.id not in allowed_id:
-            await message.answer("У вас нет прав. Вы можете посмотреть расписание и список детей")
+            await message.answer("У вас нет прав. Попросите пароль у администратора. Вы можете посмотреть расписание и список детей")
             return None
 
         delete_keyboard = ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
@@ -135,7 +135,7 @@ async def get_text_messages(message):
 
     elif message.text == 'Отметить болезнь':
         if message.from_user.id not in allowed_id:
-            await message.answer("У вас нет прав. Вы можете посмотреть расписание и список детей")
+            await message.answer("У вас нет прав. Попросите пароль у администратора. Вы можете посмотреть расписание и список детей")
             return None
         kb = ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True).add(
             KeyboardButton(text="Кто-то заболел"), KeyboardButton(text="Кто-то выздоровел"))
@@ -167,7 +167,7 @@ async def get_text_messages(message):
                 text = '*Даты болезней:*\n'
                 for pupil in all:
                     if pupil[2] is None:
-                        text += pupil[1] + ' - ' + 'еще болеет' + ' *' + pupil[0] + '*\n\n'
+                        text += pupil[1] + ' - ' + 'еще болеет' + ' *' + pupil[0] + '*\n'
                     else:
                         text += pupil[1] + ' - ' + pupil[2] + ' *' + pupil[0] + '* \t(пропущено n дней)\n'
                 await message.answer(text, parse_mode="Markdown", reply_markup=menu_keyboard)
