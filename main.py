@@ -39,6 +39,7 @@ class DeletePupil(StatesGroup):
 
 
 allowed_id = list()
+allowed_id.append(MyID)
 
 menu_keyboard = ReplyKeyboardMarkup(one_time_keyboard=True).add(
     KeyboardButton(text="Вывести расписание на неделю")).add(KeyboardButton(text='Вывести список детей')).row(
@@ -57,6 +58,7 @@ async def send_welcome(message: types.Message):
 
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
+    print(message)
     await message.answer("Привет!\nЯ помогу тебе вести расписание занятий\nНажми /menu для управления расписанием")
 
 
@@ -449,5 +451,4 @@ async def process_delete_name(message: types.Message, state: FSMContext):
 
 
 if __name__ == '__main__':
-    allowed_id.append(MyID)
     executor.start_polling(dp)
